@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    2) Partendo dal JSON generato da OrtofruttaRestController generare una tabella con i dati seguenti
+
+Numero di riga
+id Prodotto
+Descrizione
+Prezzo Unitario
+Pesatura SI/NO
+Campo di testo di tipo "number" che contiene la Quantita da comprare <input type="number" min="0">
+Bottone che dice Pesa (disabilitato se pasatura = no) <input type="button" value="Pesa">
+Campo Costo totale non digitabile calcolato automaticamente <input type="number" min="0">
+Bottone che dice inserisci nel carrello  <input type="button" value="Nel Carrello">
+-->
+
+<head>
+    <meta charset="ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ortofrutta</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .color {
+            background-color: blue;
+        }
+
+        td.cella {
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="carello"></div>
+    <div id="carelloTot"></div>
+    <div id="tabella"></div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Example</title>
+</head>
+<body>
+    <H2>Complex Example</H2>
+    <h3>Invio di dati al server in formato plain</h3>
+    <form  method="POST" action="/jsonexa/plain" target="_blank">
+        <label for="codice">Codice: </label>
+        <input type="number" value="" placeholder="codice" id="codice1" name="codice">
+        <br>        
+        <label for="codice">Codice: </label>
+        <input type="text" value="" placeholder="descrizione" id="descrizione1" name="descrizione">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <h3>Invio di dati al server in formato json</h3>
+    <form  method="POST" action="#">
+        <label for="codice">Codice: </label>
+        <input type="number" value="" placeholder="codice" id="codice2" name="codice">
+        <br>        
+        <label for="codice">Codice: </label>
+        <input type="text" value="" placeholder="descrizione" id="descrizione2" name="descrizione">
+        <br>
+        <input type="button" value="Submit" onclick="sendJson()">
+    </form>
+    <hr>
+    <textarea id="ta" readonly rows="10" cols="50">
+
+    </textarea>
+<script>
+function sendJson() {
+    let obj = new Object();
+    obj.codice = document.getElementById("codice2").value;
+    obj.descrizione = document.getElementById("descrizione2").value;
+    postJasonWithParms("/jsonexa/echoobj", obj)
+}
+
+async function postJasonWithParms(url, payload='') {
+  let data = JSON.stringify( payload );
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: data
+  });
+  const objectsList = await response.json();
+  visualizza(objectsList); // ritorna l'oggetto letto
+}
+
+function visualizza(oggetto) {
+    document.getElementById("ta").value = JSON.stringify(oggetto);
+}
+
+</script>
+</body>
+</html>

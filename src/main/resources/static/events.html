@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events Demo</title>
+  </head>
+  <body>
+    <div id="tablePlaceHolder"></div>
+    <div id="typed"></div>
+    <div id="count"></div>
+    <script>
+      "use strict";
+      let nRows = 10;
+      let nCols = 5;
+      let tableId = "tabella";
+
+
+
+
+
+      // immediate function invocation
+      let fff = function(a, b) { return a + b; } (12, 66); 
+      console.log("fff", fff); //fff(10, 4) );
+      
+
+
+
+
+
+
+      let placeholder = document.getElementById("tablePlaceHolder");
+      removeAllChildNodes(placeholder);
+      placeholder.appendChild(makeTable(tableId, nRows, nCols));
+
+      function makeTable(tableId, nRows, nCols) {
+        let table = document.createElement("table");
+        table.id = tableId;
+
+        for (let rowIndex = 0; rowIndex < nRows; rowIndex++) {
+          let row = makeRow(tableId, rowIndex);
+          for (let colIndex = 0; colIndex < nCols; colIndex++) {
+            let cell = makeCell(tableId, rowIndex, colIndex);
+            let inputId = "inp-"+rowIndex+"-"+colIndex;
+
+            let widget = makeInput(colIndex%2 === 0 ? "number" : "text", inputId);
+
+            widget.oninput = () => handleInput(rowIndex, colIndex, widget);
+            // widget.onclick = () => handleClick(rowIndex, colIndex, widget);
+            widget.onclick = function() {  return handleClick(rowIndex, colIndex, widget);  }; // in alternativa
+
+            widget.onfocus = () => window.event.target.select(); 
+
+            cell.appendChild(widget);
+
+            row.appendChild(cell);
+          }
+          table.appendChild(row);
+        }
+        return table;
+      }
+
+      function makeRow(tableId, nRow) {
+        let row = document.createElement("tr");
+        row.id = tableId + "-" + nRow;
+        return row;
+      }
+
+      function makeCell(tableId, nRow, nCol) {
+        let cell = document.createElement("td");
+        cell.id = tableId + "-" + nRow + "-" + nCol;
+       return cell;
+      }
+
+      function makeInput(type, inputId) {
+        let widget = document.createElement("input");
+        widget.type = type;
+        widget.id = inputId;
+        return widget;
+      }
+
+      function handleInput(rowIndex, colIndex, widget) {
+        console.log("handleInput", "rowIndex="+rowIndex,  "colIndex="+colIndex, "id="+widget.id);
+        console.log(widget.value);
+
+        // if(widget.id === "inp-4-2") {
+        //   let val1 = parseInt(document.getElementById("inp-4-0").value);
+        //   let val2 = parseInt(widget.value);
+        //   document.getElementById("inp-4-4").value = val1 * val2;
+        // }
+
+
+       let tr = document.getElementById(tableId).rows[rowIndex];
+       let td = tr.cells[colIndex];
+       let inp0 = tr.cells[0].children[0];
+       let inp2 = tr.cells[2].children[0];
+       let inp4 = tr.cells[4].children[0];
+
+       let val1 = parseInt(inp0.value);
+       let val2 = parseInt(inp2.value);
+       inp4.value = val1 * val2;
+
+       console.log( indentifyCell(widget));
+
+
+      //  console.log( indentifyCell(widget) );
+      }
+
+      function handleClick(rowIndex, colIndex, widget) {
+        console.log("handleClick", "rowIndex="+rowIndex,  "colIndex="+colIndex, "id="+widget.id);
+      //  console.log( indentifyCell(widget) );
+      }
+
+      function indentifyCell(element) {
+        let td = element.closest("td");
+        if(td === null ) { return null; }
+
+        let tr = td.closest("tr");
+        if(tr === null ) { return null; }
+
+        let table = tr.closest("table");
+        if(table === null ) { return null; }
+
+        let obj = new Object();
+        obj.td = td;
+        obj.tr = tr;
+        obj.table = table;
+        obj.rowIndex = tr.rowIndex;
+        obj.cellIndex = td.cellIndex;
+        obj.element = element;
+        return obj;
+      }
+
+      /**
+       * Remove all child nodes
+       * @param {*} parent
+       */
+      function removeAllChildNodes(parent) {
+        // if(parent.firstChild === null) { return; }
+        while (parent.firstChild) {
+          parent.removeChild(parent.firstChild);
+        }
+      }
+    </script>
+  </body>
+</html>
